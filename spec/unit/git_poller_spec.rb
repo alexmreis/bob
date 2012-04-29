@@ -18,7 +18,7 @@ describe GitPoller do
   end
 
   it 'can poll a repository' do
-    poller = GitPoller.watch('fixture', "git://github.com/alexmreis/dio.git");
+    poller = GitPoller.watch('pollworks', "git://github.com/alexmreis/dio.git");
     GitHelper.touch_and_commit(poller.repo_path)
     poller.changed?.should be true
   end
@@ -28,5 +28,10 @@ describe GitPoller do
     GitHelper.touch_and_commit(poller.repo_path)
     poller.update
     poller.changed?.should_not be
+  end
+
+  it 'should have a new watched project after invoking watch' do
+    poller = GitPoller.watch('fixture', "git://github.com/alexmreis/dio.git");
+    GitPoller.watched['fixture'].should be
   end
 end

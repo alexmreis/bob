@@ -17,6 +17,8 @@ Gem::Specification.new do |gem|
 
   #dependencies
   gem.add_dependency 'grit'
+  gem.add_dependency 'pony'
+  
   #testing
   gem.add_development_dependency('rspec')
 end

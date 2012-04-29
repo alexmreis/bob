@@ -1,26 +1,33 @@
 require 'grit'
 class GitPoller
 
-  attr_accessor :project_name
+  attr_accessor :project_name, :project_url
+
   def self.reset_watched
     @@watched = Hash.new
   end
 
+  def self.watched
+    @@watched ||= Hash.new
+  end
+
   def self.watch(project_name, project_url)
     poller = GitPoller.new(project_name)
+    poller.project_url = project_url
 
-    # @@watched ||= Hash.new
-    # return poller if @@watched.has_key?(project_name)
-
-    # @@watched[project_name] = {url: project_url}
+    return watched[project_name] if watched.has_key?(project_name)
+    
     git = Grit::Git.new(poller.repo_path) 
-    git.clone({},"git://github.com/alexmreis/dio.git", poller.repo_path)
+    git.clone({}, project_url, poller.repo_path)
+    @@watched ||= Hash.new
+    @@watched[project_name] = poller
+    poller.update
     poller
   end
 
   def initialize(project_name)
     @project_name = project_name    
-    update
+    update if File.exists?(repo_path)    
   end    
 
   def changed?
