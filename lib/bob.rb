@@ -4,6 +4,10 @@ require "bob/commit_notification_watcher"
 require "bob/project"
 module Bob
   class << self
-    @@root = Dir.pwd
+
+    def root
+      @root ||= Dir.pwd
+    end
+
   end
 end
