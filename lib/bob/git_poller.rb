@@ -54,7 +54,8 @@ class GitPoller
 
   def pull
     puts "Pulling #{@project.name}"
-    git = Grit::Git.new(repo_path)     
+    git = Grit::Git.new(repo_path + "/.git")
+    git.reset({:hard => true}, "HEAD")
     git.pull
     repo
   end
