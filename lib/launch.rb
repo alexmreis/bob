@@ -3,18 +3,20 @@ require 'rubygems'
 require 'bundler/setup'
 require 'bob'
 
-projects = YAML.load_file('projects.yml')
-projects.keys.each do |project|
-  GitPoller.watch(project, project["url"])  
+watcher = ProjectWatcher.new
+
+Project.all.each do |project|
+  GitPoller.watch(project) 
+  project.watch(watcher)
 end
 
 puts "Starting polling"
 t = Thread.new do
   loop do 
-    ProjectWatcher.update_all
+    GitPoller.update_all
     sleep 2
   end
 end
 t.run
-t.join
 puts "Setup complete"
+t.join

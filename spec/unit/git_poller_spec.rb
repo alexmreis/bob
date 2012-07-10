@@ -12,26 +12,30 @@ describe GitPoller do
   end
 
   it 'can start watching a new repository' do
-    poller = GitPoller.watch('dio', "git://github.com/alexmreis/dio.git");
+    poller = GitPoller.watch(Project.new(name: 'dio', repository_url: "git://github.com/alexmreis/dio.git"));
     poller.should be
     poller.repo.commits.should_not be_empty
   end
 
   it 'can poll a repository' do
-    poller = GitPoller.watch('pollworks', "git://github.com/alexmreis/dio.git");
+    poller = GitPoller.watch(Project.new(name: 'pollworks', repository_url: "git://github.com/alexmreis/dio.git"));
     GitHelper.touch_and_commit(poller.repo_path)
     poller.changed?.should be true
   end
 
   it 'can update itself after polling' do
-    poller = GitPoller.watch('fixture', "git://github.com/alexmreis/dio.git");
+    project = Project.new(name: 'fixture', repository_url: "git://github.com/alexmreis/dio.git")
+    project.stub(:last_updated=)
+
+    poller = GitPoller.watch(project)
+    project.should_receive(:last_updated=).once
     GitHelper.touch_and_commit(poller.repo_path)
     poller.update
     poller.changed?.should_not be
   end
 
   it 'should have a new watched project after invoking watch' do
-    poller = GitPoller.watch('fixture', "git://github.com/alexmreis/dio.git");
+    poller = GitPoller.watch(Project.new(name: 'fixture', repository_url: "git://github.com/alexmreis/dio.git"));
     GitPoller.watched['fixture'].should be
   end
 end

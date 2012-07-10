@@ -9,8 +9,9 @@ describe ProjectWatcher do
     Pony.stub(:mail)
     Pony.should_receive(:mail)
     
-    poller = GitPoller.watch('fixture', "git://github.com/alexmreis/dio.git");
+    poller = GitPoller.watch(project = Project.new(name: 'fixture', repository_url: "git://github.com/alexmreis/dio.git"));
+    project.watch(ProjectWatcher.new)
     GitHelper.touch_and_commit(poller.repo_path)
-    ProjectWatcher.update_all
+    GitPoller.update_all
   end
 end

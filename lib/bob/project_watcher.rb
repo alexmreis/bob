@@ -1,18 +1,16 @@
 require 'pony'
 
 class ProjectWatcher
-  def self.update_all
-    GitPoller.watched.values.each do |project|
-      puts "Polling #{project.project_name}"
-      next unless project.changed?
-      
-      puts "Project #{project.project_name} updated. Notifying"
+  def update (project)
+    puts "Project #{project.name} updated. Notifying"
+    notify(project)
+  end
+
+  def notify(project)
       Pony.mail(
         :to => 'alex@alexmreis.com', 
         :from => 'bob@thebuilder.com',
-        :subject => "New commit in [#{project.project_name}]",
+        :subject => "New commit in [#{project.name}]",
         :body => "There is a new commit to the project.")
-      project.update
-    end
   end
 end
