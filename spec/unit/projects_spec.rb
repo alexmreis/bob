@@ -9,4 +9,14 @@ describe Project do
       Project.all.first.should respond_to :name
     end
   end
+
+  describe "observable" do 
+    it "allows watchers to register and receive updates" do
+      project = Project.new(name: "dio", url: "http://dio.com")
+      project.watch(watcher = double("watcher"))
+      
+      watcher.should_receive(:update).with(project)
+      project.notify
+    end
+  end
 end

@@ -3,7 +3,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'bob'
 
-watcher = ProjectWatcher.new
+watcher = CommitNotificationWatcher.new
 
 Project.all.each do |project|
   GitPoller.watch(project) 

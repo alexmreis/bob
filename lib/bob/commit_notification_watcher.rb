@@ -1,6 +1,6 @@
 require 'pony'
 
-class ProjectWatcher
+class CommitNotificationWatcher
   def update (project)
     puts "Project #{project.name} updated. Notifying"
     notify(project)

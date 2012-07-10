@@ -16,8 +16,11 @@ class GitPoller
     return @@watched[project.name] if @@watched.has_key?(project.name)
     
     poller = GitPoller.new(project)
-    git = Grit::Git.new(poller.repo_path) 
-    git.clone({}, project.repository_url, poller.repo_path)
+    unless File.exists?(poller.repo_path)  
+      git = Grit::Git.new(poller.repo_path)
+      git.clone({}, project.repository_url, poller.repo_path)
+      poller = GitPoller.new(project)
+    end
     @@watched[project.name] = poller
     poller
   end

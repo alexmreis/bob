@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'pony'
 
-describe ProjectWatcher do   
+describe CommitNotificationWatcher do   
   before do
     GitPoller.reset_watched
   end
@@ -9,8 +9,8 @@ describe ProjectWatcher do
     Pony.stub(:mail)
     Pony.should_receive(:mail)
     
-    poller = GitPoller.watch(project = Project.new(name: 'fixture', repository_url: "git://github.com/alexmreis/dio.git"));
-    project.watch(ProjectWatcher.new)
+    poller = GitPoller.watch(project = Project.new(name: 'fixture2', repository_url: "git://github.com/alexmreis/dio.git"));
+    project.watch(CommitNotificationWatcher.new)
     GitHelper.touch_and_commit(poller.repo_path)
     GitPoller.update_all
   end
