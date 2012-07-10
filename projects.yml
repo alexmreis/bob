@@ -1,5 +1,5 @@
 dio:
   url: git://github.com/alexmreis/dio.git
 
-dio2:
-  url: git://github.com/alexmreis/dio.git
+bob:
+  url: git://github.com/alexmreis/bob.git

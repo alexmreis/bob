@@ -9,7 +9,7 @@ class BuildWatcher
     puts output
     status = $?.to_i
     if status != 0
-      puts "\0[33mBUILD FAILED\0"
+      puts "BUILD FAILED"
     else
       puts "Build successful"
     end
