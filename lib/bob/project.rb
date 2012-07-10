@@ -39,4 +39,9 @@ class Project
     notify
   end
 
+
+  def project_path
+    "#{Bob.root}/projects/#{@name}"
+  end
+
 end
