@@ -6,9 +6,6 @@ describe CommitNotificationWatcher do
     GitPoller.reset_watched
   end
 
-  it 'fails' do
-    expect(false).toBe(true)
-  end
   it 'should notify me when there is a new commit' do
     Pony.stub(:mail)
     Pony.should_receive(:mail)
