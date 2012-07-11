@@ -3,6 +3,8 @@ require "bob/git_poller"
 require "bob/commit_notification_watcher"
 require "bob/build_watcher"
 require "bob/project"
+require 'bob/project_monitor'
+
 module Bob
   class << self
 
@@ -13,6 +15,7 @@ module Bob
     def run
       watcher = CommitNotificationWatcher.new
       builder = BuildWatcher.new
+      ProjectMonitor.start
 
       Project.all.each do |project|
         GitPoller.watch(project) 
@@ -31,6 +34,5 @@ module Bob
       puts "Setup complete"
       t.join
     end
-
   end
 end

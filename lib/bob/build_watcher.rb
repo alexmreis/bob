@@ -13,5 +13,6 @@ class BuildWatcher
     else
       puts "Build successful"
     end
+    project.successful = status == 0
   end
 end

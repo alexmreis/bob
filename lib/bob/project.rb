@@ -1,5 +1,5 @@
 class Project
-  attr_accessor :name, :repository_url
+  attr_accessor :name, :repository_url, :successful
   attr_reader :last_updated
   
   @@projects = nil
@@ -24,6 +24,7 @@ class Project
     @name = params[:name]
     @repository_url = params[:repository_url]
     @watchers = []
+    @successful = true
   end
 
   def watch(watcher)
@@ -37,6 +38,10 @@ class Project
   def last_updated=(value)
     @last_updated = value
     notify
+  end
+
+  def successful?
+    @successful
   end
 
 
